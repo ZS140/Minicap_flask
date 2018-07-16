@@ -77,5 +77,6 @@ adb shell LD_LIBRARY_PATH=/data/local/tmp /data/local/tmp/minicap -P 1080x1920@1
     
 `    emit('server_response', {'data': data})`
 
->5、客户端收到服务器并解析服务器发送的数据,生成并显示图片
+>5、客户端收到服务器并解析服务器发送的数据,生成并显示图片:
 
+![](https://raw.githubusercontent.com/ZS140/img_storage/master/minicap%E4%BD%BF%E7%94%A8%E6%88%AA%E5%9B%BE.png)

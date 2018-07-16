@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<canvas id="canvas" style="border: 1px solid red;"></canvas>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+<script>
+    var socketio = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
+    socketio.emit('my event', {data: 'I\'m connected!'});
+    socketio.on('server_response', function (data) {
+        socketio.binaryType = 'blob';
+        var BLANK_IMG = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
+        var canvas = document.getElementById('canvas')
+            , g = canvas.getContext('2d');
+        var blob = new Blob(data.data, {type: 'image/jpeg'});
+        var URL = window.URL || window.webkitURL;
+        var img = new Image();
+        img.onload = function () {
+            console.log(img.width, img.height);
+            canvas.width = img.width;
+            canvas.height = img.height;
+            g.drawImage(img, 0, 0);
+            img.onload = null;
+            img.src = BLANK_IMG;
+            img = null;
+            u = null;
+            blob = null
+        };
+        var u = URL.createObjectURL(blob);
+        img.src = u;
+    });
+
+</script>
+</body>
+</html>

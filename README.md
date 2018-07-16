@@ -5,6 +5,7 @@ python for minicap
 a、查看CPU架构（adb shell getprop ro.product.cpu.abi）及查看android版本level（adb shell getprop ro.build.version.sdk）
 
 b、根据获取的CPU和版本信息，将适合设备的可执行文件和.so文件push到手机的/data/local/tmp目录下，或者在STF框架的源码下找到vendor/minicap文件夹下
+(adb push '文件路径' /data/local/tmp)
 
 c、adb shell进入到目录下chmod 777 minicap
 

@@ -36,6 +36,45 @@ adb shell LD_LIBRARY_PATH=/data/local/tmp /data/local/tmp/minicap -P 1080x1920@1
 #### 第三部分
 >只携带图片二进制信息模块：每一个变化的界面都会有上面的[携带图片大小信息和图片二进制信息模块]，当得到大小后，或许发送过来的数据都是要组装成图片的二进制信息，直到当前屏幕的数据发送完成。 
 ## Python基于flask框架的实现：
->1、创建app应用
->2、创建HTML页面，通过app路由将页面绑定到应用上
->3、创建socketio对象，用于实现前后端的实时通信，
+>1、创建Minicap类，定义一个connect()函数，使用socket模块和手机端服务器建立连接：
+
+`    def connect(self):`
+
+`        try:`
+        
+`            self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)`
+            
+`        except socket.error as e:`
+        
+`            print(e)`
+            
+`            sys.exit(1)`
+            
+`        self.socket.connect((self.host, self.port))`
+
+>2、创建app应用以及socketio对象，用于实现前后端的实时通信:
+
+`app = Flask(__name__)`
+
+`socketio = SocketIO(app)`
+
+>3、创建HTML页面，通过app路由将页面绑定到应用上:
+
+`@app.route('/')`
+
+`def index():`
+
+`    return render_template('index.html',base64=base64)`
+
+>4、创建响事件函数，当客户端发出连接时，该函数执行，运行与手机的socket通信，获取数据并发送到客户端:
+
+`@socketio.on('my event')`
+
+`def handle(res):`
+
+`    ...`
+    
+`    emit('server_response', {'data': data})`
+
+>5、客户端收到服务器并解析服务器发送的数据,生成并显示图片
+
